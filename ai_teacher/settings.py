@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django.contrib.sites',
     'django_extensions',  # ✅ Add this
-
+    'chat',
 
 ]
 
@@ -67,7 +67,7 @@ ROOT_URLCONF = 'ai_teacher.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'teacher', 'templates')],  # ✅ Add this line
+        'DIRS': [os.path.join(BASE_DIR, 'teacher', 'templates'), os.path.join(BASE_DIR, 'chat', 'templates')],  # ✅ Add this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

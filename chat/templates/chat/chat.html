@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Teacher Chat</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      
+      .chat-container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .chat-box {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+        background: #f1f1f1;
+      }
+      
+      .message {
+        opacity: 0;
+        animation: fadeIn 0.5s ease-in forwards;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .user-message {
+        text-align: right;
+        margin: 5px 0;
+      }
+      
+      .user-message .message-text {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 10px;
+        display: inline-block;
+      }
+      
+      .ai-message {
+        text-align: left;
+        margin: 5px 0;
+      }
+      
+      .ai-message .message-text {
+        background-color: #ddd;
+        padding: 8px 12px;
+        border-radius: 10px;
+        display: inline-block;
+      }
+      
+      /* Typing Indicator */
+      .typing-indicator {
+        display: none;
+        font-style: italic;
+        color: gray;
+        margin-top: 5px;
+      }
+      
+      /* Recording Animation */
+      .dot {
+        height: 12px;
+        width: 12px;
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+        animation: blink 1s infinite;
+      }
+      
+      @keyframes blink {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      
+      #recording-indicator {
+        display: none;
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="chat-container">
+        <h3 class="text-center"><i class="fas fa-robot"></i> AI Teacher Chat</h3>
+
+        <!-- Chat Box -->
+        <div id="chat-box" class="chat-box">
+          <!-- Messages appear here -->
+        </div>
+
+        <!-- Typing Indicator -->
+        <div id="typing-indicator" class="typing-indicator">
+          <i class="fas fa-spinner fa-spin"></i> AI is typing...
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-group mt-2">
+          <input type="text" id="text-input" class="form-control" placeholder="Type a message..." />
+          <button class="btn btn-primary" onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+
+        <!-- Voice Input Button -->
+        <div class="text-center mt-3">
+          <button id="voice-btn" class="btn btn-success"><i class="fas fa-microphone"></i> Speak</button>
+          <div id="recording-indicator" class="mt-2">
+            <span class="dot"></span> Recording...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function sendMessage() {
+        let input = $('#text-input').val()
+        if (input.trim() === '') return
+      
+        let chatBox = $('#chat-box')
+        chatBox.append(`<div class="user-message message"><strong><i class="fas fa-user"></i> You:</strong> <span class="message-text">${input}</span></div>`)
+        $('#text-input').val('')
+      
+        // Show Typing Indicator
+        $('#typing-indicator').show()
+      
+        // Set a timeout to remove AI typing indicator if it takes too long
+        let typingTimeout = setTimeout(() => {
+          $('#typing-indicator').hide()
+          chatBox.append(`<div class="ai-message message"><strong><i class="fas fa-robot"></i> AI:</strong> <span class="message-text">Sorry, I'm taking too long to respond.</span></div>`)
+        }, 10000) // ⏳ If AI takes more than 10 sec, stop waiting
+      
+        // Send request to Django
+        $.ajax({
+          url: '/chat/ai-response/',
+          data: { message: input },
+          success: function (response) {
+            clearTimeout(typingTimeout) // ✅ Stop the timeout when AI responds
+            $('#typing-indicator').hide()
+            chatBox.append(`<div class="ai-message message"><strong><i class="fas fa-robot"></i> AI:</strong> <span class="message-text">${response.response}</span></div>`)
+            chatBox.scrollTop(chatBox[0].scrollHeight)
+            speakText(response.response)
+          }
+        })
+      }
+      
+      function speakText(text) {
+        let speech = new SpeechSynthesisUtterance()
+        speech.text = text
+        speech.lang = 'en-US'
+        speech.volume = 1
+        speech.rate = 1
+        speech.pitch = 1
+        window.speechSynthesis.speak(speech)
+      }
+      
+      // Voice Input
+      let recognition
+      $('#voice-btn').click(function () {
+        if (!recognition) {
+          recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
+          recognition.lang = 'en-US'
+      
+          recognition.onstart = function () {
+            $('#recording-indicator').show()
+          }
+      
+          recognition.onresult = function (event) {
+            let voiceText = event.results[0][0].transcript
+            $('#text-input').val(voiceText)
+          }
+      
+          recognition.onend = function () {
+            $('#recording-indicator').hide()
+          }
+        }
+        recognition.start()
+      })
+    </script>
+  </body>
+</html>

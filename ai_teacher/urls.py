@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('teacher.urls')),
     path("accounts/", include("allauth.urls")),  # 🔹 Ensure Allauth URLs are included
+    path('chat/', include('chat.urls')),
 
 ]
 
