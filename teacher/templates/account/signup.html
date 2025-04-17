@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Sign Up - AI Teacher{% endblock %}
+
+{% block content %}
+  <div class="container-box">
+    <h3 class="text-center mb-4">Create Your AI Teacher Account</h3>
+
+    {% if form.errors %}
+      <div class="alert alert-danger">Please correct the errors below.</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field|add_class:"form-control" }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+    </form>
+
+    <div class="text-center mt-3">
+      Already have an account? <a href="{% url 'account_login' %}">Login here</a>
+    </div>
+  </div>
+{% endblock %}

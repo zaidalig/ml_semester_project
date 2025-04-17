@@ -18,7 +18,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Add this line
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -29,7 +28,6 @@ SECRET_KEY = 'django-insecure-d#h_ev%iru=ax=*kue@(r8s54%pgt-n*#cl^!k7@vizkggyl=v
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -48,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',  # ✅ Add this
     'chat',
-
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -59,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'ai_teacher.middleware.login_required.LoginRequiredMiddleware',  # ✅ add this
 ]
 
 ROOT_URLCONF = 'ai_teacher.urls'
@@ -82,27 +80,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ai_teacher.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ai_teacher_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'ai_teacher_db',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }SHOW TABLES;
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -127,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -141,7 +137,6 @@ USE_TZ = True
 
 SITE_ID = 1
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -152,10 +147,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "/api"
-ACCOUNT_LOGOUT_REDIRECT_URL = "/accounts/login/"
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "none"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Add this line
 
+ACCOUNT_LOGOUT_ON_GET = True
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

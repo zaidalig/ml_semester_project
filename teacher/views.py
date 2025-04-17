@@ -4,7 +4,7 @@ import speech_recognition as sr
 import pyttsx3
 from django.shortcuts import render
 import os
-
+from django.contrib.auth.decorators import login_required
 # ✅ Use the fine-tuned GPT-2 model saved in /ml_model
 MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "ml_model")
 
@@ -14,6 +14,9 @@ lesson_pipeline = pipeline("text2text-generation", model="t5-small")  # Still us
 
 # ✅ AI Chatbot (Custom-trained GPT-2 on ML dataset)
  # Ensure user is logged in
+
+ 
+@login_required  # Ensure user is logged in
 def ai_chatbot(request):
     query = request.GET.get("query", "Explain supervised learning")
     result = chatbot_pipeline(query, max_length=100, do_sample=True, temperature=0.7)
@@ -24,6 +27,7 @@ def ai_chatbot(request):
  # Ensure user is logged in
 
 
+@login_required  # Ensure user is logged in
 def home_view(request):
     return render(request, "teacher/home.html")  # Make sure this template exists
 

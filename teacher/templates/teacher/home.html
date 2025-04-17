@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome to the AI Teacher Home Page!</h1>
-    <p>You are logged in.</p>
-    <a href="{% url 'account_logout' %}">Logout</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Home - AI Teacher{% endblock %}
+
+{% block content %}
+  <div class="container-box text-center">
+    <h1 class="mb-3">👋 Welcome to AI Teacher!</h1>
+    <p class="lead">You are successfully logged in.</p>
+
+    <div class="mt-4">
+      <a href="{% url 'chat_page' %}" class="btn btn-primary me-2">Go to Chatbot</a>
+      <a href="{% url 'generate_lesson' %}" class="btn btn-outline-secondary me-2">Generate Lesson</a>
+      <a href="{% url 'generate_quiz' %}" class="btn btn-outline-info">Take a Quiz</a>
+    </div>
+
+    <div class="mt-4">
+      <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+  </div>
+{% endblock %}

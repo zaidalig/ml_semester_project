@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Login - AI Teacher{% endblock %}
+
+{% block content %}
+<div class="container-box">
+  <h3 class="text-center mb-4">AI Teacher Login</h3>
+
+  {% if form.errors %}
+    <div class="alert alert-danger">Invalid credentials. Please try again.</div>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    
+    <div class="mb-3">
+      <label class="form-label">Username or Email</label>
+      {{ form.login|add_class:"form-control" }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      {{ form.password|add_class:"form-control" }}
+    </div>
+
+    <div class="mb-3 form-check">
+      {{ form.remember|add_class:"form-check-input" }}
+      <label class="form-check-label">Remember Me</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <a href="{% url 'account_reset_password' %}">Forgot Password?</a> |
+    <a href="{% url 'account_signup' %}">Sign Up</a>
+  </div>
+</div>
+{% endblock %}
