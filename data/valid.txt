@@ -1,0 +1,120 @@
+Q47_Part_5: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Create partial dependence plots
+Q47_Part_5: Create partial dependence plots
+Q47_Part_6: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Dimensionality reduction techniques
+Q47_Part_7: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Attention mapping/saliency mapping
+Q47_Part_8: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Plot predicted vs. actual results
+Q47_Part_8: Plot predicted vs. actual results
+Q47_Part_9: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Print out a decision tree
+Q47_Part_9: Print out a decision tree
+Q47_Part_10: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Sensitivity analysis/perturbation importance
+Q47_Part_11: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - LIME functions
+Q47_Part_12: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - ELI5 functions
+Q47_Part_13: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - SHAP functions
+Q47_Part_14: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - None/I do not use these model explanation techniques
+Q47_Part_14: None/I do not use these model explanation techniques
+Q47_Part_15: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Selected Choice - Other
+Q47_Part_16: What methods do you prefer for explaining and/or interpreting decisions that are made by ML models? (Select all that apply) - Other - Text
+Q47_Part_16: Visualising and interpreting predicted vs. actual
+Q47_Part_16: Hello World it's Siraj
+Q47_Part_16: Manually observe patterns in predictions by testing on varied test data.
+Q47_Part_16: Visualizing the results on interpretable model
+Q47_Part_16: Beginner in the field
+Q47_Part_16: Rule sets, rule lists
+Q47_Part_16: difficult to understand your questions
+Q47_Part_16: I haven't tried this
+Q47_Part_16: Provide uncertainty in predictions
+Q47_Part_16: Analizing predictions on an individual scales
+Q47_Part_16: Explain in plain english
+Q47_Part_16: Lift charts, local linear regression
+Q47_Part_16: Many other statistically-based tools and nonparametric methods
+Q47_Part_16: Leveraging explainable modeling methods
+Q47_Part_16: Examine predictions for different inputs
+Q47_Part_16: Design the model that fits the theory being tested
+Q47_Part_16: totally depends on the problem and model
+Q47_Part_16: Proprietary machine-generated conclusion justification
+Q47_Part_16: examine results to build intuition on how the model works and make sure it makes sense
+Q47_Part_16: importance methods, feature contribution methods
+Q47_Part_16: Marginal effects (partial derivatives)
+Q47_Part_16: Feature distribution study, amount of data available in gunamics monitoring
+Q47_Part_16: Backpropagation for adversarial example construction, https://github.com/albermax/innvestigate, http://heatmapping.org
+Q47_Part_16: I do not know all of these methods; I am still learning
+Q47_Part_16: Does the model actually make sense and give the answer that I was looking for
+Q47_Part_16: proper split of train, validate, and test, so I can look at model outputs on novel data
+Q47_Part_16: DATA "SCIENCE" IS ALL BULLSHIT!!! FUCK YOU!!!!
+Q47_Part_16: compare with statistical results
+Q47_Part_16: Plain english descriptions of mathematical models.
+Q47_Part_16: Cross-Validation (K-fold, stratified, normal)
+Q47_Part_16: Building/researching new visualization techniques (mainly use D3 for this)
+Q47_Part_16: ICE plots (Individual Conditional Expectation)
+Q47_Part_16: I don't have enough experience to do this
+Q47_Part_16: totally depends on the model type
+Q47_Part_16: Build "interpretable" models from the start
+Q47_Part_16: Domain-specific investigations for text like mispelled perc., length, etc.
+Q47_Part_16: I often use other models that are easier to interpret
+Q47_Part_16: I have no knowledge if this
+Q47_Part_16: accuracy and interpretabilty in relation to other models
+Q47_Part_16: Jitter plots and state space maps
+Q47_Part_16: If the models are statistical (read - not neural), we can trace back the root of all behaviour and identify what (in the data) caused the model to act in a certain way.
+Q47_Part_16: I created my own paradigm of ML that has allows me to examine exactly what variables are driving patient subpopulations for complex disease
+Q47_Part_16: BIC, AUC , ROC, LIFT and Gain Charts etc...
+Q47_Part_16: Specific to task, based on learnings from online instructors.
+Q47_Part_16: I am a learner
+Q47_Part_16: simulated demo that shows how the inputs determine the predicted value and then show how the predicted value impacts on the business decision
+Q47_Part_16: Experimental analysis in the lab
+Q47_Part_16: Trying to generalize reasons for errors
+Q47_Part_16: Ehh, haven't had to deal with that yet much. Probably soon.
+Q47_Part_16: visualizing weights, many others
+Q47_Part_16: Class Activation Mapping with CNN
+Q47_Part_16: Analysing and understanding the phenomenae that are being modelled. Always bearing in mind that predictive models are just (as their name implies) models and not a substitute for reality and/or common sense.
+Q47_Part_16: Proximity tree, subgroup analysis, model performance comparison
+Q47_Part_16: AIC, BIC, common sense
+Q47_Part_16: Outlier Detection for pointwise Error
+Q47_Part_16: Examing the Kernel Weights
+Q47_Part_16: Depends on the specific case
+Q47_Part_16: I also develop my own ideas for specific applications
+Q47_Part_16: answers in this section speculative - based on part of 1 class
+Q47_Part_16: This survey is too long
+Q48: Do you consider ML models to be "black boxes" with outputs that are difficult or impossible to explain?
+Q48: I am confident that I can explain the outputs of most if not all ML models
+Q48: Yes, most ML models are "black boxes"
+Q48: I am confident that I can understand and explain the outputs of many but not all ML models
+Q48: I view ML models as "black boxes" but I am confident that experts are able to explain model outputs
+Q48: I do not know; I have no opinion on the matter
+Q49_Part_1: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Share code on Github or a similar code-sharing repository
+Q49_Part_1: Share code on Github or a similar code-sharing repository
+Q49_Part_2: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Share both data and code on Github or a similar code-sharing repository
+Q49_Part_2: Share both data and code on Github or a similar code-sharing repository
+Q49_Part_3: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Share data, code, and environment using a hosted service (Kaggle Kernels, Google Colaboratory, Amazon SageMaker, etc.)
+Q49_Part_3: Share data, code, and environment using a hosted service (Kaggle Kernels, Google Colaboratory, Amazon SageMaker, etc.)
+Q49_Part_4: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Share data, code, and environment using containers (Docker, etc.)
+Q49_Part_4: Share data, code, and environment using containers (Docker, etc.)
+Q49_Part_5: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Share code, data, and environment using virtual machines (VirtualBox, etc.)
+Q49_Part_5: Share code, data, and environment using virtual machines (VirtualBox, etc.)
+Q49_Part_6: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Make sure the code is well documented
+Q49_Part_6: Make sure the code is well documented
+Q49_Part_7: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Make sure the code is human-readable
+Q49_Part_7: Make sure the code is human-readable
+Q49_Part_8: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Define all random seeds
+Q49_Part_8: Define all random seeds
+Q49_Part_9: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Define relative rather than absolute file paths
+Q49_Part_9: Define relative rather than absolute file paths
+Q49_Part_10: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Include a text file describing all dependencies
+Q49_Part_10: Include a text file describing all dependencies
+Q49_Part_11: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - None/I do not make my work easy for others to reproduce
+Q49_Part_11: None/I do not make my work easy for others to reproduce
+Q49_Part_12: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Selected Choice - Other
+Q49_OTHER_TEXT: What tools and methods do you use to make your work easy to reproduce? (Select all that apply) - Other - Text
+Q50_Part_1: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - Too expensive
+Q50_Part_2: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - Too time-consuming
+Q50_Part_3: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - Requires too much technical knowledge
+Q50_Part_3: Requires too much technical knowledge
+Q50_Part_4: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - Afraid that others will use my work without giving proper credit
+Q50_Part_4: Afraid that others will use my work without giving proper credit
+Q50_Part_5: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - Not enough incentives to share my work
+Q50_Part_5: Not enough incentives to share my work
+Q50_Part_6: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - I had never considered making my work easier for others to reproduce
+Q50_Part_6: I had never considered making my work easier for others to reproduce
+Q50_Part_7: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - None of these reasons apply to me
+Q50_Part_7: None of these reasons apply to me
+Q50_Part_8: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Selected Choice - Other
+Q50_OTHER_TEXT: What barriers prevent you from making your work even easier to reuse and reproduce? (Select all that apply) - Other - Text

@@ -1,6 +1,5 @@
-
 # Created by https://www.gitignore.io/api/django,virtualenv,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=django,virtualenv,visualstudiocode
+# Updated for AI Teacher project with model & audio ignores
 
 ### Django ###
 *.log
@@ -10,21 +9,32 @@ __pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media
+media/
+staticfiles/
 
-# If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
-# in your Git repository. Update and uncomment the following line accordingly.
-# <django-project-name>/staticfiles/
+### AI Teacher Specific ###
+# Model files (optional: keep config/tokenizer, ignore weights)
+ml_model/*.bin
+ml_model/*.ckpt
+ml_model/*.pt
+ml_model/*.h5
+ml_model/*.tflite
+ml_model/__pycache__/
+ml_model/output/
+
+# Audio/Video output files
+*.wav
+*.mp3
+*.ogg
+
+# Avoid large model data in repo
+*.zip
+*.tar.gz
 
 ### Django.Python Stack ###
-# Byte-compiled / optimized / DLL files
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -44,18 +54,10 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
-# Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
-# Unit test / coverage reports
 htmlcov/
 .tox/
 .nox/
@@ -67,61 +69,26 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
-
-# Translations
 *.mo
-
-# Scrapy stuff:
 .scrapy
-
-# Sphinx documentation
 docs/_build/
-
-# PyBuilder
 target/
-
-# pyenv
 .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# celery beat schedule file
 celerybeat-schedule
-
-# SageMath parsed files
 *.sage.py
-
-# Spyder project settings
 .spyderproject
 .spyproject
-
-# Rope project settings
 .ropeproject
-
-# Mr Developer
 .mr.developer.cfg
 .project
 .pydevproject
-
-# mkdocs documentation
 /site
-
-# mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre type checker
 .pyre/
 
 ### VirtualEnv ###
-# Virtualenv
-# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 pyvenv.cfg
 .env
 .venv
@@ -140,7 +107,10 @@ pip-selfcheck.json
 !.vscode/extensions.json
 
 ### VisualStudioCode Patch ###
-# Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/django,virtualenv,visualstudiocode
+# End of updated .gitignore
+
+ml_model/checkpoint-900/*.safetensors
+ml_model/checkpoint-900/*.pt
+ml_model/model.safetensors
