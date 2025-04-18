@@ -1,183 +1,163 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
-{% block title %}AI Teacher Chat{% endblock %}
+{# ---------- <head> extras (only loaded for this page) ---------- #}
+{% block extra_head %}
+  <!--  Bootstrap, jQuery & Font‑Awesome (omit if base.html already includes) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+  <style>
+    body{background:#f8f9fa}
+    .chat-container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:10px;
+                    box-shadow:0 0 10px rgba(0,0,0,.1)}
+    .chat-box{height:300px;overflow-y:auto;border:1px solid #ddd;padding:10px;border-radius:5px;background:#f1f1f1}
+    .message{opacity:0;animation:fade .4s forwards}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .user-message{text-align:right;margin:5px 0}
+    .user-message .message-text{background:#007bff;color:#fff;padding:8px 12px;border-radius:10px;display:inline-block}
+    .ai-message{text-align:left;margin:5px 0}
+    .ai-message  .message-text{background:#ddd;padding:8px 12px;border-radius:10px;display:inline-block}
+    .typing-indicator{display:none;font-style:italic;color:#666;margin-top:4px}
+    .recording{display:none;font-weight:600;color:#d00;margin-top:4px}
+    .dot{height:10px;width:10px;background:#d00;border-radius:50%;display:inline-block;animation:blink 1s infinite}
+    @keyframes blink{50%{opacity:0}}
+    .copy-btn{background:none;border:none;color:#555;padding:0 4px}
+    .copy-btn:hover{color:#000}
+  </style>
+{% endblock %}
+
+
+{# ---------- MAIN CONTENT ---------- #}
 {% block content %}
-<style>
-  .chat-container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .chat-box {
-    height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    background: #f1f1f1;
-  }
-
-  .message {
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .user-message {
-    text-align: right;
-    margin: 5px 0;
-  }
-
-  .user-message .message-text {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 10px;
-    display: inline-block;
-  }
-
-  .ai-message {
-    text-align: left;
-    margin: 5px 0;
-  }
-
-  .ai-message .message-text {
-    background-color: #ddd;
-    padding: 8px 12px;
-    border-radius: 10px;
-    display: inline-block;
-  }
-
-  .typing-indicator {
-    display: none;
-    font-style: italic;
-    color: gray;
-    margin-top: 5px;
-  }
-
-  .dot {
-    height: 12px;
-    width: 12px;
-    background-color: red;
-    border-radius: 50%;
-    display: inline-block;
-    animation: blink 1s infinite;
-  }
-
-  @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  #recording-indicator {
-    display: none;
-    color: red;
-    font-weight: bold;
-  }
-</style>
-
 <div class="container mt-5">
   <div class="chat-container">
-    <h3 class="text-center"><i class="fas fa-robot"></i> AI Teacher Chat</h3>
+    <h3 class="text-center mb-3"><i class="fas fa-robot"></i> AI Teacher Chat</h3>
 
+    <!-- chat history -->
     <div id="chat-box" class="chat-box"></div>
 
+    <!-- typing indicator -->
     <div id="typing-indicator" class="typing-indicator">
-      <i class="fas fa-spinner fa-spin"></i> AI is typing...
+      <i class="fas fa-spinner fa-spin"></i> AI is typing…
     </div>
 
+    <!-- text input -->
     <div class="input-group mt-2">
-      <input type="text" id="text-input" class="form-control" placeholder="Type a message..." />
-      <button class="btn btn-primary" onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+      <input id="text-input" class="form-control" placeholder="Type a message…" autofocus>
+      <button id="send-btn" class="btn btn-primary">
+        <i class="fas fa-paper-plane"></i> Send
+      </button>
+
     </div>
 
+    <!-- voice controls -->
     <div class="text-center mt-3">
-      <button id="voice-btn" class="btn btn-success"><i class="fas fa-microphone"></i> Speak</button>
-      <div id="recording-indicator" class="mt-2">
-        <span class="dot"></span> Recording...
+      <button id="voice-btn" class="btn btn-success">
+        <i class="fas fa-microphone"></i> Speak
+      </button>
+      <div id="recording-indicator" class="recording">
+        <span class="dot"></span> Recording…
       </div>
+
+      <button id="tts-toggle" class="btn btn-light btn-sm mt-2">
+        🔈 Voice ON
+      </button>
+      <small id="voice-warn" class="text-danger d-none ms-2">
+        voice unsupported
+      </small>
     </div>
   </div>
 </div>
 {% endblock %}
 
+
+{# ---------- page‑specific JS ---------- #}
 {% block extra_js %}
 <script>
-  function sendMessage() {
-    let input = $('#text-input').val()
-    if (input.trim() === '') return
+$(function(){
 
-    let chatBox = $('#chat-box')
-    chatBox.append(`<div class="user-message message"><strong><i class="fas fa-user"></i> You:</strong> <span class="message-text">${input}</span></div>`)
-    $('#text-input').val('')
+  const $chat  = $("#chat-box"),
+        $input = $("#text-input"),
+        $type  = $("#typing-indicator"),
+        $rec   = $("#recording-indicator"),
+        synth  = window.speechSynthesis;
 
-    $('#typing-indicator').show()
+  let voiceOn = true;
 
-    let typingTimeout = setTimeout(() => {
-      $('#typing-indicator').hide()
-      chatBox.append(`<div class="ai-message message"><strong><i class="fas fa-robot"></i> AI:</strong> <span class="message-text">Sorry, I'm taking too long to respond.</span></div>`)
-    }, 10000)
-
-    $.ajax({
-      url: '/chat/ai-response/',
-      data: { message: input },
-      success: function (response) {
-        clearTimeout(typingTimeout)
-        $('#typing-indicator').hide()
-        chatBox.append(`<div class="ai-message message"><strong><i class="fas fa-robot"></i> AI:</strong> <span class="message-text">${response.response}</span></div>`)
-        chatBox.scrollTop(chatBox[0].scrollHeight)
-        speakText(response.response)
-      }
-    })
+  /* add message to chat */
+  function addMsg(txt, who){
+      const icon = who==='user' ? 'user' : 'robot';
+      const copy = who==='ai'
+        ? `<button class="copy-btn" data-txt="${txt}">
+             <i class="fas fa-copy"></i></button>` : '';
+      $chat.append(`
+        <div class="${who}-message message">
+          <strong><i class="fas fa-${icon}"></i> ${who==='user'?'You':'AI'}:</strong>
+          <span class="message-text">${txt}</span>${copy}
+        </div>`);
+      $chat.scrollTop($chat[0].scrollHeight);
   }
 
-  function speakText(text) {
-    let speech = new SpeechSynthesisUtterance()
-    speech.text = text
-    speech.lang = 'en-US'
-    speech.volume = 1
-    speech.rate = 1
-    speech.pitch = 1
-    window.speechSynthesis.speak(speech)
+  /* speak via Web‑Speech TTS */
+  function speak(txt){
+      if(!voiceOn || !synth) return;
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = "en-US"; synth.speak(u);
   }
 
-  let recognition
-  $('#voice-btn').click(function () {
-    if (!recognition) {
-      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
-      recognition.lang = 'en-US'
+  /* send to back‑end */
+  function send(){
+      const txt = $input.val().trim();
+      if(!txt) return;
+      addMsg(txt,'user'); $input.val('').focus();
+      $type.show();
 
-      recognition.onstart = function () {
-        $('#recording-indicator').show()
-      }
+      const timer = setTimeout(()=>{$type.hide();addMsg("Sorry, I'm taking too long to respond.","ai");},10000);
 
-      recognition.onresult = function (event) {
-        let voiceText = event.results[0][0].transcript
-        $('#text-input').val(voiceText)
-      }
+      $.get("/chat/ai-response/", { message: txt })
+       .done(res=>{
+           clearTimeout(timer);
+           $type.hide();
+           addMsg(res.response,'ai');
+           speak(res.response);
+       })
+       .fail(()=>{ clearTimeout(timer); $type.hide(); });
+  }
 
-      recognition.onend = function () {
-        $('#recording-indicator').hide()
-      }
-    }
-    recognition.start()
-  })
+  $("#send-btn").on("click", send);
+  $input.on("keypress", e => { if(e.key==='Enter'){ e.preventDefault(); send(); } });
+
+  /* copy to clipboard */
+  $chat.on("click",".copy-btn",function(){
+      navigator.clipboard.writeText($(this).data("txt"));
+  });
+
+  /* toggle TTS */
+  $("#tts-toggle").on("click", function(){
+      voiceOn = !voiceOn;
+      $(this).text(voiceOn ? "🔈 Voice ON" : "🔇 Voice OFF");
+      if(!voiceOn) synth.cancel();
+  });
+
+  /* speech‑to‑text */
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRec){
+      $("#voice-warn").removeClass("d-none");
+      $("#voice-btn").prop("disabled", true);
+  } else {
+      $("#voice-btn").on("click", () => {
+          const rec = new SpeechRec();        // fresh instance = fewer bugs
+          rec.lang = "en-US";
+          rec.onstart  = ()=> $rec.show();
+          rec.onresult = e  => $input.val(e.results[0][0].transcript);
+          rec.onend    = ()=> { $rec.hide(); if($input.val().trim()) send(); };
+          try{ rec.start(); }catch(_){}
+      });
+  }
+
+});
 </script>
 {% endblock %}

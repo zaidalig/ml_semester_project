@@ -7,31 +7,24 @@
         AI Teacher
       {% endblock %}
     </title>
+
+    <!-- global CSS / JS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     <style>
-      body {
-        background-color: #f8f9fa;
-      }
-      .container-box {
-        max-width: 500px;
-        margin: 80px auto;
-        padding: 30px;
-        background: #fff;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-      .container-box {
-        max-width: 500px;
-        margin: 80px auto;
-        padding: 30px;
-        background: #fff;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      body{background:#f8f9fa}
+      .container-box{
+        max-width:500px;margin:80px auto;padding:30px;background:#fff;
+        border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1)
       }
     </style>
+
+    {# page‑specific <head> additions (e.g. extra CSS) #}
+    {% block extra_head %}
+    {% endblock %}
   </head>
+
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div class="container">
@@ -49,10 +42,11 @@
 
     <div class="container">
       {% block content %}
-      
-        {% block extra_js %}
-        {% endblock %}
       {% endblock %}
     </div>
+
+    {# page‑specific JS (loaded *after* HTML so DOM is ready) #}
+    {% block extra_js %}
+    {% endblock %}
   </body>
 </html>
