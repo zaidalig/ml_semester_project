@@ -1,25 +1,48 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from transformers import pipeline
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
+import torch
+import os
 
-# Load the text-generation model (This runs locally)
-generator = pipeline("text-generation", model="EleutherAI/gpt-neo-2.7B")
+# === Load your local model ===
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "ml_model")
+
+tokenizer = GPT2Tokenizer.from_pretrained(MODEL_PATH)
+model = GPT2LMHeadModel.from_pretrained(MODEL_PATH)
+model.eval()
 
 
-def get_ai_response(user_input):
+# === Response generator ===
+def get_ai_response(user_input, max_length=250):
     try:
-        response = generator(
-            user_input,
-            max_length=250,  # Reduce length for faster responses
-            num_return_sequences=1,
-            truncation=True,  # Explicitly enable truncation
-            temperature=0.7  # Control randomness
-        )
-        return response[0]['generated_text']
+        prompt = f"Question: {user_input}\nAnswer:"
+        input_ids = tokenizer.encode(prompt, return_tensors='pt')
+
+        with torch.no_grad():
+            output = model.generate(
+                input_ids=input_ids,
+                max_length=max_length,
+                num_return_sequences=1,
+                pad_token_id=tokenizer.eos_token_id,
+                temperature=0.7
+            )
+
+        full_output = tokenizer.decode(output[0], skip_special_tokens=True)
+
+        # Extract only the answer portion (remove "Question: ... Answer:" if present)
+        answer_start = full_output.find("Answer:")
+        if answer_start != -1:
+            response = full_output[answer_start + len("Answer:"):].strip()
+        else:
+            response = full_output.strip()
+
+        return response
     except Exception as e:
         return f"Error: {str(e)}"
 
 
+# === Views ===
 def chat_page(request):
     return render(request, 'chat/chat.html')
 

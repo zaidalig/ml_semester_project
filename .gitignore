@@ -14,14 +14,19 @@ staticfiles/
 
 ### AI Teacher Specific ###
 # Model files (optional: keep config/tokenizer, ignore weights)
-ml_model/*.bin
-ml_model/*.ckpt
-ml_model/*.pt
-ml_model/*.h5
-ml_model/*.tflite
-ml_model/__pycache__/
-ml_model/output/
+# Ignore trained models
+/ml_model/
+/ml_model/*
+!/ml_model/config.json
+!/ml_model/tokenizer_config.json
+!/ml_model/vocab.json
+!/ml_model/merges.txt
 
+# Ignore large files
+/data/
+/data/*.csv
+/data/*.txt
+/data/*.json
 # Audio/Video output files
 *.wav
 *.mp3

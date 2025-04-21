@@ -1,0 +1,1 @@
+Get-ChildItem -Recurse -Include *.py,*.pyc -Path .\*migrations* | Where-Object { $_.Name -ne "__init__.py" } | Remove-Item -Force; Remove-Item .\db.sqlite3 -Force; python manage.py makemigrations; python manage.py migrate
